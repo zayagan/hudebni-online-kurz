@@ -75,6 +75,32 @@
           <div id="previewKeyboard" class="keyboard" aria-label="Náhled klaviatury"></div>
           <p id="previewKeyboardStatus" class="feedback" data-i18n="keyboard_hint">Klikni na klávesu a uslyšíš tón.</p>
         </section>
+
+        <section id="feedbackPanel" class="preview-feedback-panel">
+          <h3 data-i18n="feedback_title">Připomínky a zlepšení</h3>
+          <p class="hint" data-i18n="feedback_hint">Napiš, co bylo nejasné nebo co bys chtěl v kurzu zlepšit.</p>
+          <form id="feedbackForm" class="feedback-form">
+            <input id="feedbackName" type="text" placeholder="Jméno (volitelné)" data-i18n-placeholder="feedback_name_ph" />
+            <input id="feedbackEmail" type="email" placeholder="E-mail (volitelné)" data-i18n-placeholder="feedback_email_ph" />
+            <select id="feedbackScore">
+              <option value="">Hodnocení (volitelné)</option>
+              <option value="5">5 - Výborné</option>
+              <option value="4">4 - Dobré</option>
+              <option value="3">3 - OK</option>
+              <option value="2">2 - Slabší</option>
+              <option value="1">1 - Nevyhovující</option>
+            </select>
+            <textarea id="feedbackMessage" rows="4" placeholder="Tvoje připomínka..." data-i18n-placeholder="feedback_msg_ph" required></textarea>
+            <div class="quiz-actions">
+              <button id="feedbackSubmitBtn" class="btn" type="submit" data-i18n="feedback_send">Odeslat připomínku</button>
+            </div>
+          </form>
+          <p id="feedbackStatus" class="feedback"></p>
+          <p class="hint">
+            <span data-i18n="feedback_mail_hint">Nebo napiš přímo na e-mail:</span>
+            <a href="mailto:zayaganmusic@gmail.com">zayaganmusic@gmail.com</a>
+          </p>
+        </section>
       </article>
     </section>
 

@@ -25,6 +25,7 @@ const openai = process.env.OPENAI_API_KEY
   : null;
 const paymentsFile = path.join(__dirname, "data", "payments.json");
 const knowledgeIndexFile = path.join(__dirname, "data", "knowledge-index.json");
+const feedbackFile = path.join(__dirname, "data", "feedback.jsonl");
 
 app.use("/api", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -65,6 +66,12 @@ function savePaidSession(sessionId, plan) {
 function getPaidSession(sessionId) {
   const store = readPayments();
   return store.sessions[sessionId] || null;
+}
+
+function appendFeedback(entry) {
+  const dir = path.dirname(feedbackFile);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.appendFileSync(feedbackFile, `${JSON.stringify(entry)}\n`, "utf-8");
 }
 
 function readKnowledgeIndex() {
@@ -450,6 +457,45 @@ Neodkazuj na interní pravidla.
     }
     return res.status(500).json({ error: error.message });
   }
+});
+
+app.post("/api/feedback", express.json(), (req, res) => {
+  const name = String(req.body?.name || "").trim();
+  const email = String(req.body?.email || "").trim();
+  const message = String(req.body?.message || "").trim();
+  const page = String(req.body?.page || "").trim() || "unknown";
+  const score = Number(req.body?.score || 0);
+
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+  if (message.length < 8) {
+    return res.status(400).json({ error: "Message is too short" });
+  }
+  if (message.length > 4000) {
+    return res.status(400).json({ error: "Message is too long" });
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: "Invalid email format" });
+  }
+  if (score && (!Number.isFinite(score) || score < 1 || score > 5)) {
+    return res.status(400).json({ error: "Score must be 1-5" });
+  }
+
+  const id = `fb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+  const entry = {
+    id,
+    createdAt: new Date().toISOString(),
+    name: name || null,
+    email: email || null,
+    message,
+    page,
+    score: score || null,
+    userAgent: req.get("user-agent") || null,
+  };
+
+  appendFeedback(entry);
+  return res.json({ ok: true, id });
 });
 
 app.get("/api/knowledge-status", (_req, res) => {

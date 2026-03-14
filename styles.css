@@ -442,6 +442,39 @@ body.frontend-preview .top-tab:hover {
   color: #25306f;
 }
 
+.preview-feedback-panel {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #d9defa;
+}
+
+.preview-feedback-panel h3 {
+  margin: 0 0 0.35rem;
+  color: #25306f;
+}
+
+.feedback-form {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+  width: 100%;
+  border: 1px solid #c9d1f2;
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  color: var(--text);
+  background: #fff;
+}
+
+.feedback-form textarea {
+  resize: vertical;
+}
+
 .label-top {
   top: 16%;
   left: 50%;
