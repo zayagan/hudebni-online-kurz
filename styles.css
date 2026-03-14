@@ -1405,3 +1405,145 @@ label {
     margin: 0 1.5rem 1.2rem;
   }
 }
+
+/* Tablet + Mobile Refinement */
+@media (max-width: 1024px) {
+  .topbar {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+
+  .layout,
+  .layout-single,
+  .landing-grid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .lesson-link,
+  .btn,
+  .top-tab {
+    min-height: 42px;
+  }
+
+  body.frontend-preview .topbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    justify-items: stretch;
+  }
+
+  body.frontend-preview .preview-left,
+  body.frontend-preview .preview-center,
+  body.frontend-preview .preview-right {
+    justify-items: center;
+  }
+
+  body.frontend-preview .top-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .triad-wheel {
+    width: min(520px, 92vw);
+  }
+
+  .triad-label {
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar h1 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  body.frontend-preview .top-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  body.frontend-preview .top-tab {
+    width: 100%;
+    padding: 0.52rem 0.45rem;
+    font-size: 0.86rem;
+  }
+
+  .triad-wheel {
+    width: min(420px, 94vw);
+  }
+
+  .label-top {
+    top: 15%;
+  }
+
+  .label-left,
+  .label-right {
+    top: 58%;
+  }
+
+  .label-left {
+    left: 6%;
+  }
+
+  .label-right {
+    right: 6%;
+  }
+
+  .feedback-form {
+    gap: 0.5rem;
+  }
+
+  .feedback-form input,
+  .feedback-form select,
+  .feedback-form textarea {
+    min-height: 44px;
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  .feedback-form textarea {
+    min-height: 120px;
+  }
+
+  .preview-keyboard-panel .keyboard {
+    padding: 0.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0.8rem 0.75rem;
+  }
+
+  .layout,
+  .layout-single,
+  .landing-grid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .triad-wheel {
+    width: min(340px, 94vw);
+    border-width: 2px;
+  }
+
+  .triad-label {
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .label-left {
+    left: 5%;
+  }
+
+  .label-right {
+    right: 5%;
+  }
+
+  .preview-keyboard-panel .keyboard {
+    margin-left: -0.2rem;
+    margin-right: -0.2rem;
+  }
+}
