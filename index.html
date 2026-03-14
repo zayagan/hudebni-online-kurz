@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elementární Hudební Teorie Interaktivně</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="frontend-preview" data-i18n-title-key="page_title_index">
+    <header class="topbar">
+      <div class="preview-left">
+        <button id="previewModulesBtn" class="btn secondary top-tab" type="button" data-i18n="go_modules">Přejít na moduly</button>
+      </div>
+      <div class="preview-center">
+        <h1 data-i18n="main_title">Elementární Hudební Teorie Interaktivně</h1>
+      </div>
+      <div class="topbar-right preview-right">
+        <div class="top-tabs" aria-label="Rychlá navigace">
+          <button class="btn secondary top-tab preview-shortcut" type="button" data-triad-target="topic-akordy" data-i18n="shortcut_keyboard">Klaviatura</button>
+          <button class="btn secondary top-tab preview-shortcut" type="button" data-triad-target="topic-intervaly" data-i18n="shortcut_quiz">Kvíz</button>
+          <button class="btn secondary top-tab preview-shortcut" type="button" data-triad-target="topic-stupnice" data-i18n="shortcut_table">Tabulka</button>
+          <button id="langToggleBtn" class="btn secondary top-tab lang-toggle" type="button">EN</button>
+        </div>
+        <div class="progress-chip preview-progress-hidden">
+          <span id="progressText">0/0 splněno</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="landing-grid">
+      <article class="landing-card intro">
+        <h2>Začni hned a zkoušej v praxi</h2>
+        <p>
+          Vyber lekci v modulech, hraj akordy na klaviatuře a průběžně si stav vlastní mapu pojmů.
+          Celý kurz je stavěný tak, abys šel od základů ke skutečné orientaci v tóninách.
+        </p>
+        <div class="quiz-actions">
+          <button id="goToModulesBtn" class="btn" type="button" data-i18n="go_modules">Přejít na moduly</button>
+        </div>
+      </article>
+
+      <article class="landing-card">
+        <h2>Přístup ke kurzu (Stripe test)</h2>
+        <div class="payment-panel">
+          <p id="paymentStatus" class="feedback">Kurz zatím není odemčený.</p>
+          <div class="quiz-actions">
+            <button id="buyOneTimeBtn" class="btn" type="button">Koupit jednorázově</button>
+            <button id="buySubBtn" class="btn secondary" type="button">Spustit předplatné</button>
+            <button id="simulateOneTimeBtn" class="btn secondary" type="button">Simulace jednorázové</button>
+            <button id="simulateSubBtn" class="btn secondary" type="button">Simulace předplatného</button>
+          </div>
+          <p class="hint">Test režim: nastav si své Stripe test odkazy v souboru <code>app.js</code>.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="musicWheelSection" class="layout-single wheel-section">
+      <article class="block wheel-block triad-preview-card">
+        <div class="music-wheel-wrap" aria-label="Hlavní kruh hudební teorie">
+          <div class="triad-wheel">
+            <a class="triad-label triad-link label-top" href="stupnice.html" data-i18n="topic_scale" aria-label="Přejít na stránku o stupnicích">Stupnice</a>
+            <a class="triad-label triad-link label-left" href="intervaly.html" data-i18n="topic_intervals" aria-label="Přejít na stránku o intervalech">Intervaly</a>
+            <a class="triad-label triad-link label-right" href="akordy.html" data-i18n="topic_chords" aria-label="Přejít na stránku o akordech">Akordy</a>
+          </div>
+        </div>
+
+        <section id="previewKeyboardPanel" class="preview-keyboard-panel" hidden>
+          <h3 data-i18n="keyboard_demo">Klaviatura</h3>
+          <div id="previewKeyboard" class="keyboard" aria-label="Náhled klaviatury"></div>
+          <p id="previewKeyboardStatus" class="feedback" data-i18n="keyboard_hint">Klikni na klávesu a uslyšíš tón.</p>
+        </section>
+      </article>
+    </section>
+
+    <main id="modulesSection" class="layout">
+      <aside class="sidebar">
+        <h2>Moduly</h2>
+        <div id="moduleList" class="module-list"></div>
+      </aside>
+
+      <section class="content" id="lessonPanel">
+        <div class="empty-state">
+          <h2>Vyber lekci vlevo</h2>
+          <p>Začni první lekcí a sleduj svůj pokrok.</p>
+        </div>
+      </section>
+    </main>
+
+    <section class="layout-single learning-tools">
+      <article id="paperLabSection" class="block paper-lab">
+        <h2>Papír nápadů: uč se hrou</h2>
+        <p class="hint">Vyber pojem, hoď ho na papír, přesouvej kartičky, kresli si vztahy a když se ti to nelíbí, vymaž to.</p>
+
+        <div class="paper-toolbar">
+          <button id="paperPenBtn" class="btn secondary" type="button">Pero</button>
+          <button id="paperEraserBtn" class="btn secondary" type="button">Guma</button>
+          <button id="paperClearInkBtn" class="btn secondary" type="button">Vymazat kresbu</button>
+          <button id="paperResetAllBtn" class="btn secondary" type="button">Nový papír</button>
+        </div>
+
+        <div id="paperKnowledgeChips" class="paper-chips"></div>
+
+        <div class="paper-board-wrap">
+          <div id="paperBoard" class="paper-board">
+            <canvas id="paperCanvas"></canvas>
+            <div id="paperNotesLayer" class="paper-notes-layer"></div>
+          </div>
+          <div id="paperTrashZone" class="paper-trash">Přetáhni sem pro smazání</div>
+        </div>
+
+        <p id="paperHint" class="feedback">Začni kliknutím na pojem nahoře.</p>
+      </article>
+
+      <article class="block">
+        <h2>Ověřené zdroje pro trénink</h2>
+        <ul class="resource-list">
+          <li><a href="https://www.musictheory.net/lessons" target="_blank" rel="noopener noreferrer">musictheory.net lessons</a></li>
+          <li><a href="https://www.musictheory.net/exercises" target="_blank" rel="noopener noreferrer">musictheory.net exercises</a></li>
+          <li><a href="https://www.teoria.com/en/tutorials/intervals/" target="_blank" rel="noopener noreferrer">Teoria: Intervals tutorial</a></li>
+          <li><a href="https://www.musicca.com/exercises" target="_blank" rel="noopener noreferrer">Musicca exercises (notes, rhythm, chords, scales)</a></li>
+          <li><a href="https://learningmusic.ableton.com/notes-and-scales/keys-and-scales.html" target="_blank" rel="noopener noreferrer">Ableton Learning Music: keys and scales</a></li>
+          <li><a href="https://online.berklee.edu/courses/music-theory-101" target="_blank" rel="noopener noreferrer">Berklee Online: Music Theory 101</a></li>
+          <li><a href="https://www.coursera.org/learn/edinburgh-music-theory" target="_blank" rel="noopener noreferrer">Coursera: Fundamentals of Music Theory (Edinburgh)</a></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="layout-single curriculum-section">
+      <article class="block">
+        <h2>Kurikulum: Výcuc z top online kurzů</h2>
+        <p class="hint">Praktické minimum, které se opakuje napříč nejlepšími kurzy hudební teorie.</p>
+        <div id="curriculumFilters" class="quiz-actions">
+          <button class="btn secondary curriculum-filter is-active" type="button" data-filter="all">Vše</button>
+          <button class="btn secondary curriculum-filter" type="button" data-filter="basics">Základy</button>
+          <button class="btn secondary curriculum-filter" type="button" data-filter="harmony">Harmonie</button>
+          <button class="btn secondary curriculum-filter" type="button" data-filter="practice">Praxe</button>
+        </div>
+        <div id="curriculumGrid" class="curriculum-grid"></div>
+      </article>
+    </section>
+
+    <aside class="ai-assistant" aria-label="AI asistent hudební teorie">
+      <h2>AI Knihovna</h2>
+      <p class="hint">Zeptej se na cokoliv k elementární hudební teorii.</p>
+      <div id="aiChatLog" class="ai-chat-log" aria-live="polite">
+        <div><strong>AI:</strong> Napiš dotaz, třeba „Vysvětli mi intervaly jednoduše“.</div>
+      </div>
+      <div class="ai-chat-controls">
+        <input id="aiInput" type="text" placeholder="Napiš otázku..." />
+        <button id="aiSendBtn" class="btn" type="button">Odeslat</button>
+      </div>
+      <div class="ai-quick-actions">
+        <button id="aiAskLessonBtn" class="btn secondary" type="button">Vysvětli tuto lekci</button>
+        <button id="aiAskChordBtn" class="btn secondary" type="button">Vysvětli tento akord</button>
+      </div>
+    </aside>
+
+    <template id="lessonTemplate">
+      <article class="lesson-card">
+        <div class="lesson-head">
+          <p class="eyebrow" id="lessonMeta"></p>
+          <h2 id="lessonTitle"></h2>
+          <p id="lessonGoal" class="goal"></p>
+        </div>
+
+        <section class="block">
+          <h3>Klaviatura a akordy</h3>
+          <div class="harmony-panel">
+            <div class="harmony-controls">
+              <div class="control-group">
+                <div class="harmony-row">
+                  <div class="harmony-col">
+                    <label>Tónina (kořen akordu)</label>
+                    <div class="quiz-actions tone-grid" id="rootButtons">
+                      <button class="btn secondary tone-btn" type="button" data-root="C">C</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="C#">C#</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="D">D</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="Eb">Eb</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="E">E</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="F">F</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="F#">F#</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="G">G</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="Ab">Ab</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="A">A</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="Bb">Bb</button>
+                      <button class="btn secondary tone-btn" type="button" data-root="B">B</button>
+                    </div>
+                  </div>
+                  <div class="harmony-col">
+                    <label>Typ akordu</label>
+                    <div class="quiz-actions chord-types">
+                      <button id="chordDurBtn" class="btn" type="button">Dur</button>
+                      <button id="chordMollBtn" class="btn secondary" type="button">Moll</button>
+                      <button id="chordAugBtn" class="btn secondary" type="button">Zvětšený</button>
+                      <button id="chordDimBtn" class="btn secondary" type="button">Zmenšený</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label>Obrat</label>
+                <div class="quiz-actions inversion-grid" id="inversionButtons">
+                  <button class="btn secondary inversion-btn" type="button" data-inversion="root">
+                    Základní tvar (kvintakord)
+                  </button>
+                  <button class="btn secondary inversion-btn" type="button" data-inversion="first">
+                    1. obrat (sextakord)
+                  </button>
+                  <button class="btn secondary inversion-btn" type="button" data-inversion="second">
+                    2. obrat (kvartsextakord)
+                  </button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="quiz-actions action-row">
+                  <button id="playChordBtn" class="btn" type="button">Přehrát akord</button>
+                  <button id="resetChordBtn" class="btn secondary" type="button">Reset</button>
+                </div>
+                <p id="harmonyStatus" class="feedback">Vyber tóninu a typ akordu. Klávesy se zvýrazní automaticky.</p>
+              </div>
+            </div>
+            <div id="keyboard" class="keyboard" aria-label="Piano klaviatura 3 oktávy"></div>
+          </div>
+        </section>
+
+        <section class="block">
+          <h3>Vysvětlení</h3>
+          <p id="lessonScript"></p>
+        </section>
+
+        <section class="block">
+          <h3>Rychlé vysvětlivky (komprese)</h3>
+          <p class="hint">Klikni na téma a dostaneš stručné pravidlo, příklad a mini úkol na klaviatuře.</p>
+          <div id="explainerButtons" class="quiz-actions"></div>
+          <article id="explainerCard" class="explainer-card">
+            <h4 id="explainerTitle"></h4>
+            <p id="explainerRule"></p>
+            <p id="explainerExample" class="hint"></p>
+            <p id="explainerTask"></p>
+          </article>
+        </section>
+
+        <section class="block">
+          <h3>Bublinky teorie (1-9)</h3>
+          <p class="hint">Vyber bublinku a hned uvidíš stručné vysvětlení.</p>
+          <div id="theoryBubbleButtons" class="bubble-grid"></div>
+          <article class="explainer-card">
+            <h4 id="theoryBubbleTitle"></h4>
+            <p id="theoryBubbleText"></p>
+          </article>
+        </section>
+
+        <section class="block">
+          <h3>Interaktivní úkol</h3>
+          <ol id="lessonTask"></ol>
+          <button id="taskDoneBtn" class="btn secondary">Označit úkol jako procvičený</button>
+          <p id="taskFeedback" class="feedback"></p>
+        </section>
+
+        <section class="block">
+          <h3>Mini kvíz</h3>
+          <form id="quizForm"></form>
+          <div class="quiz-actions">
+            <button id="checkQuizBtn" class="btn">Vyhodnotit kvíz</button>
+            <button id="markLessonBtn" class="btn secondary" disabled>Označit lekci jako splněnou</button>
+          </div>
+          <p id="quizFeedback" class="feedback"></p>
+        </section>
+      </article>
+    </template>
+
+    <script src="i18n.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

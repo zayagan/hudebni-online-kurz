@@ -1,0 +1,21 @@
+{
+  "name": "hudebni-kurz-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interaktivni hudebni kurz s Stripe checkout a webhookem",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build:knowledge": "node scripts/build-knowledge-index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "openai": "^6.22.0",
+    "pdf-parse": "^1.1.1",
+    "stripe": "^18.1.1"
+  }
+}

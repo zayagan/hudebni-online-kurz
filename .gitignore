@@ -1,0 +1,14 @@
+node_modules/
+.env
+data/payments.json
+data/knowledge-index.json
+
+.DS_Store
+output/
+output /
+tmp/
+node_modules/
+.env
+*.wav
+*.m4a
+*.mid

@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: hudebni-kurz-app
+    env: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: APP_URL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_CURRENCY
+        value: czk
+      - key: STRIPE_AMOUNT_ONE_TIME
+        value: "200"
+      - key: STRIPE_AMOUNT_SUBSCRIPTION
+        value: "100"
+      - key: STRIPE_PRICE_ONE_TIME
+        sync: false
+      - key: STRIPE_PRICE_SUBSCRIPTION
+        sync: false
