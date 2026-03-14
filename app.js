@@ -983,6 +983,7 @@ async function readPaymentReturnFromUrl() {
 
 function renderSidebar() {
   const list = document.getElementById("moduleList");
+  if (!list) return;
   list.innerHTML = "";
 
   modules.forEach((module) => {
@@ -1014,7 +1015,9 @@ function renderSidebar() {
 function renderProgressChip() {
   const all = getAllLessons();
   const doneCount = all.filter((lesson) => isDone(lesson.id)).length;
-  document.getElementById("progressText").textContent = `${doneCount}/${all.length} splněno`;
+  const progressEl = document.getElementById("progressText");
+  if (!progressEl) return;
+  progressEl.textContent = `${doneCount}/${all.length} splněno`;
 }
 
 function setPaymentStatus(text, ok = false) {
@@ -1059,13 +1062,13 @@ function wirePaymentUI() {
   const subBtn = document.getElementById("buySubBtn");
   const simulateOneTimeBtn = document.getElementById("simulateOneTimeBtn");
   const simulateSubBtn = document.getElementById("simulateSubBtn");
-  if (!oneTimeBtn || !subBtn || !simulateOneTimeBtn || !simulateSubBtn) return;
+  if (!oneTimeBtn || !subBtn) return;
 
   const planLabel = getPaymentPlanLabel();
   if (paymentState.premium && planLabel) {
     setPaymentStatus(`Kurz je odemčený. Aktivní plán: ${planLabel}.`, true);
   } else {
-    setPaymentStatus("Kurz zatím není odemčený.");
+    setPaymentStatus("Vyber typ přístupu a pokračuj do výuky.");
   }
 
   oneTimeBtn.addEventListener("click", () => {
@@ -1074,23 +1077,29 @@ function wirePaymentUI() {
   subBtn.addEventListener("click", () => {
     openStripePayment("subscription");
   });
-  simulateOneTimeBtn.addEventListener("click", () => {
-    simulatePaymentSuccess("one_time");
-  });
-  simulateSubBtn.addEventListener("click", () => {
-    simulatePaymentSuccess("subscription");
-  });
+  if (simulateOneTimeBtn) {
+    simulateOneTimeBtn.addEventListener("click", () => {
+      simulatePaymentSuccess("one_time");
+    });
+  }
+  if (simulateSubBtn) {
+    simulateSubBtn.addEventListener("click", () => {
+      simulatePaymentSuccess("subscription");
+    });
+  }
 }
 
 function wireLandingUI() {
   const goToModulesBtn = document.getElementById("goToModulesBtn");
+  const goToDemoBtn = document.getElementById("goToDemoBtn");
+  const navDemoBtn = document.getElementById("navDemoBtn");
+  const navAiBtn = document.getElementById("navAiBtn");
+  const navFeedbackBtn = document.getElementById("navFeedbackBtn");
   const modulesSection = document.getElementById("modulesSection") || document.querySelector(".layout");
+  const interactiveDemoSection = document.getElementById("interactiveDemoSection");
+  const aiSection = document.getElementById("aiSection");
+  const feedbackSection = document.getElementById("feedbackSection");
   const paperSection = document.getElementById("paperLabSection");
-  const wheelSection = document.getElementById("musicWheelSection");
-  const tabWheelBtn = document.getElementById("tabWheelBtn");
-  const tabModulesBtn = document.getElementById("tabModulesBtn");
-  const tabPaperBtn = document.getElementById("tabPaperBtn");
-  const tabKeyboardBtn = document.getElementById("tabKeyboardBtn");
 
   if (goToModulesBtn && modulesSection) {
     goToModulesBtn.addEventListener("click", () => {
@@ -1098,35 +1107,33 @@ function wireLandingUI() {
     });
   }
 
-  if (tabModulesBtn && modulesSection) {
-    tabModulesBtn.addEventListener("click", () => {
-      modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (goToDemoBtn && interactiveDemoSection) {
+    goToDemoBtn.addEventListener("click", () => {
+      interactiveDemoSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
-  if (tabWheelBtn && wheelSection) {
-    tabWheelBtn.addEventListener("click", () => {
-      wheelSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (navDemoBtn && interactiveDemoSection) {
+    navDemoBtn.addEventListener("click", () => {
+      interactiveDemoSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
-  if (tabPaperBtn && paperSection) {
-    tabPaperBtn.addEventListener("click", () => {
-      paperSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (navAiBtn && aiSection) {
+    navAiBtn.addEventListener("click", () => {
+      aiSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
-  if (tabKeyboardBtn) {
-    tabKeyboardBtn.addEventListener("click", () => {
-      const keyboard = document.getElementById("keyboard");
-      if (keyboard) {
-        keyboard.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
-      if (modulesSection) {
-        modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+  if (navFeedbackBtn && feedbackSection) {
+    navFeedbackBtn.addEventListener("click", () => {
+      feedbackSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
+  }
+
+  // Keep this shortcut for old controls if they reappear.
+  if (paperSection && !paperSection.closest("details")?.open) {
+    paperSection.closest("details").open = true;
   }
 }
 
@@ -1162,7 +1169,19 @@ function wireMusicWheelUI() {
       if (!targetId) return;
       setActive(targetId);
       const target = document.getElementById(targetId);
-      if (target) target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        const fallbackMap = {
+          "topic-stupnice": document.getElementById("modulesSection"),
+          "topic-intervaly": document.getElementById("howSection"),
+          "topic-akordy": document.getElementById("interactiveDemoSection"),
+        };
+        const fallbackTarget = fallbackMap[targetId];
+        if (fallbackTarget) {
+          fallbackTarget.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
       if (targetId === "topic-akordy" && previewKeyboardPanel) {
         previewKeyboardPanel.hidden = false;
         if (!previewKeyboardLab.rendered) renderPreviewKeyboard();
@@ -1174,7 +1193,6 @@ function wireMusicWheelUI() {
   const previewModulesBtn = document.getElementById("previewModulesBtn");
   if (previewModulesBtn && modulesSection) {
     previewModulesBtn.addEventListener("click", () => {
-      document.body.classList.remove("frontend-preview");
       modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
@@ -1925,6 +1943,7 @@ function wireSamplePlayerUI() {
 function renderLesson(lesson) {
   const panel = document.getElementById("lessonPanel");
   const tpl = document.getElementById("lessonTemplate");
+  if (!panel || !tpl) return;
   panel.innerHTML = "";
   panel.appendChild(tpl.content.cloneNode(true));
   wireHarmonyUI();
