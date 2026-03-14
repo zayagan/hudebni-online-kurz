@@ -1209,7 +1209,12 @@ function wireFeedbackForm() {
           page: window.location.pathname || "/",
         }),
       });
-      const payload = await response.json();
+      let payload = {};
+      try {
+        payload = await response.json();
+      } catch (_error) {
+        payload = {};
+      }
       if (!response.ok || !payload.ok) {
         throw new Error(payload?.error || "feedback-submit-failed");
       }
@@ -1217,7 +1222,7 @@ function wireFeedbackForm() {
       statusEl.textContent = "Díky, připomínka byla uložena.";
       statusEl.className = "feedback ok";
     } catch (error) {
-      statusEl.textContent = "Nepodařilo se odeslat připomínku. Zkus to prosím znovu.";
+      statusEl.textContent = `Nepodařilo se odeslat připomínku: ${error.message}`;
       statusEl.className = "feedback";
     } finally {
       submitBtn.disabled = false;

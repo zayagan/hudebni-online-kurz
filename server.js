@@ -74,6 +74,33 @@ function appendFeedback(entry) {
   fs.appendFileSync(feedbackFile, `${JSON.stringify(entry)}\n`, "utf-8");
 }
 
+function readFeedbackEntries() {
+  if (!fs.existsSync(feedbackFile)) return [];
+  const raw = fs.readFileSync(feedbackFile, "utf-8");
+  const lines = raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const entries = [];
+  for (const line of lines) {
+    try {
+      entries.push(JSON.parse(line));
+    } catch (_error) {
+      // Skip malformed line; keep endpoint resilient.
+    }
+  }
+  return entries;
+}
+
+function isFeedbackAdminAuthorized(req) {
+  const token = String(process.env.FEEDBACK_ADMIN_TOKEN || "").trim();
+  if (!token) return false;
+  const sent =
+    String(req.query?.key || "").trim() ||
+    String(req.get("x-admin-token") || "").trim();
+  return sent && sent === token;
+}
+
 function readKnowledgeIndex() {
   if (!fs.existsSync(knowledgeIndexFile)) return null;
   try {
@@ -469,7 +496,7 @@ app.post("/api/feedback", express.json(), (req, res) => {
   if (!message) {
     return res.status(400).json({ error: "Message is required" });
   }
-  if (message.length < 8) {
+  if (message.length < 2) {
     return res.status(400).json({ error: "Message is too short" });
   }
   if (message.length > 4000) {
@@ -496,6 +523,27 @@ app.post("/api/feedback", express.json(), (req, res) => {
 
   appendFeedback(entry);
   return res.json({ ok: true, id });
+});
+
+app.get("/api/feedback/list", (req, res) => {
+  if (!process.env.FEEDBACK_ADMIN_TOKEN) {
+    return res.status(503).json({ error: "FEEDBACK_ADMIN_TOKEN is not configured" });
+  }
+  if (!isFeedbackAdminAuthorized(req)) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const limitRaw = Number(req.query.limit || 100);
+  const limit = Number.isFinite(limitRaw) ? Math.max(1, Math.min(500, Math.round(limitRaw))) : 100;
+  const entries = readFeedbackEntries()
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")))
+    .slice(0, limit);
+
+  return res.json({
+    ok: true,
+    count: entries.length,
+    entries,
+  });
 });
 
 app.get("/api/knowledge-status", (_req, res) => {

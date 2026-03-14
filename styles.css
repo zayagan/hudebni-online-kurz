@@ -390,6 +390,137 @@ body.frontend-preview .top-tab:hover {
   box-shadow: none;
 }
 
+body.frontend-preview .triad-preview-card {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.4rem 0;
+}
+
+.theory-hero-card {
+  max-width: 1280px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.2rem 0;
+}
+
+.theory-hero-head {
+  text-align: center;
+}
+
+.theory-hero-head h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #20242f;
+}
+
+.theory-subtitle {
+  margin: 0.55rem 0 0;
+  color: #5d6473;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.theory-script {
+  margin: 1.6rem 0 0;
+  color: #242831;
+  font-size: clamp(1.3rem, 2.8vw, 3rem);
+  font-family: "Bradley Hand", "Segoe Script", cursive;
+}
+
+.theory-inline-nav {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: clamp(1rem, 2vw, 1.55rem);
+}
+
+.theory-inline-nav a {
+  color: #1f2431;
+  text-decoration: none;
+}
+
+.theory-inline-nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.theory-inline-nav span {
+  color: #d2d5dd;
+}
+
+.theory-cards-grid {
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.theory-topic-card {
+  border: 1px solid #eceef3;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  color: #171b24;
+  padding: 1rem;
+  min-height: 220px;
+  box-shadow: 0 2px 8px rgba(31, 36, 49, 0.05);
+  transition: transform 130ms ease, box-shadow 130ms ease;
+}
+
+.theory-topic-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(31, 36, 49, 0.1);
+}
+
+.theory-topic-card h3 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 500;
+}
+
+.topic-art {
+  margin-top: 1.1rem;
+  height: 120px;
+  border: 1px solid #e8ebf2;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  color: #2a303d;
+  background: #fff;
+}
+
+.keyboard-art {
+  background:
+    linear-gradient(90deg, #111 10%, transparent 10% 20%, #111 20% 30%, transparent 30% 40%, #111 40% 50%, transparent 50% 60%, #111 60% 70%, transparent 70% 80%, #111 80% 90%, transparent 90%),
+    repeating-linear-gradient(90deg, #fff 0 9.09%, #d8dde8 9.09% 10%);
+  background-size: 66% 45%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-position: center 18%, center;
+}
+
+.interval-art {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.chord-art {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: 0.2em;
+}
+
+.fifths-art {
+  font-size: 4.2rem;
+  color: #2d3342;
+}
+
 .triad-wheel {
   position: relative;
   width: min(620px, 85vw);
@@ -411,6 +542,13 @@ body.frontend-preview .top-tab:hover {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
+  display: grid;
+  justify-items: center;
+  gap: 0.32rem;
+}
+
+.triad-text {
+  line-height: 1;
 }
 
 .triad-link {
@@ -421,6 +559,37 @@ body.frontend-preview .top-tab:hover {
 .triad-link:hover {
   text-decoration: underline;
   text-underline-offset: 0.12em;
+}
+
+.triad-icon {
+  opacity: 0.62;
+  color: #2d3a8c;
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.08em;
+  text-transform: none;
+  min-height: 18px;
+}
+
+.triad-icon-scales {
+  width: 78px;
+  height: 22px;
+  border: 1px solid rgba(45, 58, 140, 0.35);
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, rgba(45, 58, 140, 0.7) 10%, transparent 10% 20%, rgba(45, 58, 140, 0.7) 20% 30%, transparent 30% 40%, rgba(45, 58, 140, 0.7) 40% 50%, transparent 50% 60%, rgba(45, 58, 140, 0.7) 60% 70%, transparent 70% 80%, rgba(45, 58, 140, 0.7) 80% 90%, transparent 90%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.6) 0 9.09%, rgba(45, 58, 140, 0.2) 9.09% 10%);
+  background-size: 62% 46%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-position: center 15%, center;
+}
+
+.triad-icon-intervals {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+.triad-icon-chords {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: 0.2em;
 }
 
 .theory-page-wrap {
@@ -447,6 +616,10 @@ body.frontend-preview .top-tab:hover {
   padding-top: 0.9rem;
   border-top: 1px solid #d5d8df;
   max-width: 760px;
+}
+
+body.frontend-preview .preview-keyboard-panel {
+  background: transparent;
 }
 
 .preview-feedback-panel h3 {
@@ -492,21 +665,51 @@ body.frontend-preview .top-tab:hover {
   font-size: 1.05rem;
 }
 
+.admin-panel {
+  max-width: 980px;
+}
+
+.admin-feedback-list {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.admin-feedback-card {
+  border: 1px solid #dfe4f5;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.7rem 0.8rem;
+}
+
+.admin-feedback-meta {
+  margin: 0.15rem 0;
+  font-size: 0.88rem;
+  color: #5a6383;
+}
+
+.admin-feedback-message {
+  margin: 0.35rem 0;
+  font-size: 0.98rem;
+  color: #1f2744;
+  white-space: pre-wrap;
+}
+
 .label-top {
-  top: 16%;
+  top: 14%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .label-right {
   right: 14%;
-  top: 55%;
+  top: 54%;
   transform: translateY(-50%);
 }
 
 .label-left {
   left: 14%;
-  top: 55%;
+  top: 54%;
   transform: translateY(-50%);
 }
 
@@ -1468,6 +1671,14 @@ label {
   .triad-label {
     font-size: clamp(1.2rem, 2.5vw, 1.7rem);
   }
+
+  .theory-hero-card {
+    padding: 2rem 1.3rem 1.4rem;
+  }
+
+  .theory-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -1493,12 +1704,12 @@ label {
   }
 
   .label-top {
-    top: 15%;
+    top: 13%;
   }
 
   .label-left,
   .label-right {
-    top: 58%;
+    top: 56%;
   }
 
   .label-left {
@@ -1527,6 +1738,29 @@ label {
   .preview-keyboard-panel .keyboard {
     padding: 0.55rem;
   }
+
+  .theory-inline-nav {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .theory-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .theory-topic-card {
+    min-height: 170px;
+  }
+
+  .theory-topic-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .topic-art {
+    height: 84px;
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1549,6 +1783,15 @@ label {
   .triad-label {
     font-size: 1rem;
     letter-spacing: 0.02em;
+  }
+
+  .triad-icon {
+    font-size: 0.62rem;
+  }
+
+  .triad-icon-scales {
+    width: 58px;
+    height: 18px;
   }
 
   .label-left {

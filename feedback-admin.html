@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="preview-left">
+        <a class="btn secondary top-tab" href="index.html">Zpět na web</a>
+      </div>
+      <div class="preview-center">
+        <h1>Feedback Admin</h1>
+      </div>
+      <div class="topbar-right preview-right"></div>
+    </header>
+
+    <main class="theory-page-wrap">
+      <article class="block theory-page-card admin-panel">
+        <h2>Soukromý přehled připomínek</h2>
+        <p class="hint">Zadej admin token a načti feedbacky.</p>
+
+        <form id="adminAuthForm" class="feedback-form">
+          <input id="adminTokenInput" type="password" placeholder="Admin token" />
+          <div class="feedback-actions">
+            <button class="btn" type="submit">Načíst feedback</button>
+          </div>
+        </form>
+
+        <p id="adminStatus" class="feedback"></p>
+        <div id="feedbackList" class="admin-feedback-list"></div>
+      </article>
+    </main>
+
+    <script>
+      (function () {
+        const STORAGE_KEY = "feedback_admin_token";
+        const form = document.getElementById("adminAuthForm");
+        const tokenInput = document.getElementById("adminTokenInput");
+        const statusEl = document.getElementById("adminStatus");
+        const listEl = document.getElementById("feedbackList");
+
+        tokenInput.value = localStorage.getItem(STORAGE_KEY) || "";
+
+        function setStatus(text, ok) {
+          statusEl.textContent = text;
+          statusEl.className = ok ? "feedback ok" : "feedback";
+        }
+
+        function renderEntries(entries) {
+          listEl.innerHTML = "";
+          if (!entries.length) {
+            listEl.innerHTML = "<p class='hint'>Zatím žádné feedbacky.</p>";
+            return;
+          }
+          entries.forEach((entry) => {
+            const card = document.createElement("article");
+            card.className = "admin-feedback-card";
+            card.innerHTML = `
+              <p class="admin-feedback-meta"><strong>${entry.createdAt || ""}</strong> · ${entry.page || "-"}</p>
+              <p class="admin-feedback-message">${String(entry.message || "")}</p>
+              <p class="admin-feedback-meta">Jméno: ${entry.name || "-"} · E-mail: ${entry.email || "-"} · Skóre: ${entry.score || "-"}</p>
+            `;
+            listEl.appendChild(card);
+          });
+        }
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const token = tokenInput.value.trim();
+          if (!token) {
+            setStatus("Zadej admin token.", false);
+            return;
+          }
+
+          setStatus("Načítám...", false);
+          localStorage.setItem(STORAGE_KEY, token);
+
+          try {
+            const response = await fetch(`/api/feedback/list?limit=200&key=${encodeURIComponent(token)}`);
+            const payload = await response.json();
+            if (!response.ok || !payload.ok) {
+              throw new Error(payload?.error || "Failed to load feedback.");
+            }
+            renderEntries(payload.entries || []);
+            setStatus(`Načteno ${payload.count || 0} feedbacků.`, true);
+          } catch (error) {
+            setStatus(`Chyba: ${error.message}`, false);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
