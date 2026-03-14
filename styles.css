@@ -443,36 +443,53 @@ body.frontend-preview .top-tab:hover {
 }
 
 .preview-feedback-panel {
-  margin-top: 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid #d9defa;
+  margin-top: 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #d5d8df;
+  max-width: 760px;
 }
 
 .preview-feedback-panel h3 {
-  margin: 0 0 0.35rem;
-  color: #25306f;
+  margin: 0 0 0.55rem;
+  color: #2c2f36;
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  font-weight: 500;
 }
 
 .feedback-form {
   display: grid;
-  gap: 0.55rem;
-  margin-top: 0.5rem;
+  gap: 0.8rem;
+  margin-top: 0.2rem;
 }
 
 .feedback-form input,
 .feedback-form select,
 .feedback-form textarea {
   width: 100%;
-  border: 1px solid #c9d1f2;
-  border-radius: 10px;
-  padding: 0.55rem 0.7rem;
+  border: 1px solid #cfd3db;
+  border-radius: 8px;
+  padding: 1rem 1rem;
   font: inherit;
-  color: var(--text);
-  background: #fff;
+  color: #2f343d;
+  background: #ffffff;
 }
 
 .feedback-form textarea {
   resize: vertical;
+  min-height: 190px;
+  font-size: 1.1rem;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feedback-actions .btn {
+  min-width: 132px;
+  min-height: 52px;
+  border-radius: 10px;
+  font-size: 1.05rem;
 }
 
 .label-top {

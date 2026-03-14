@@ -1188,11 +1188,7 @@ function wireFeedbackForm() {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const name = String(document.getElementById("feedbackName")?.value || "").trim();
-    const email = String(document.getElementById("feedbackEmail")?.value || "").trim();
     const message = String(document.getElementById("feedbackMessage")?.value || "").trim();
-    const scoreRaw = String(document.getElementById("feedbackScore")?.value || "").trim();
-    const score = scoreRaw ? Number(scoreRaw) : null;
 
     if (!message) {
       statusEl.textContent = "Napiš prosím připomínku.";
@@ -1209,10 +1205,7 @@ function wireFeedbackForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
-          email,
           message,
-          score,
           page: window.location.pathname || "/",
         }),
       });
